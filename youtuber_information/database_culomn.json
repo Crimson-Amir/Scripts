@@ -1,0 +1,28 @@
+{
+  "youtube": {
+    "id": "INTEGER PRIMARY KEY",
+    "data_update": "TEXT",
+    "youtuber_name": "TEXT",
+    "youtuber_username": "TEXT NOT NULL UNIQUE",
+    "youtuber_uploads": "TEXT",
+    "youtuber_subscribers": "TEXT",
+    "youtuber_views": "INTEGER",
+    "youtuber_country": "TEXT",
+    "youtuber_channel_type": "TEXT DEFAULT NONE",
+    "youtuber_channel_created": "TEXT",
+    "channel_avatar": "TEXT DEFAULT NONE",
+    "channel_banner": "TEXT DEFAULT NONE",
+    "youtuber_social_media": "TEXT DEFAULT NONE",
+    "total_grade": "TEXT",
+    "subscriber_rank": "TEXT",
+    "video_views_rank": "TEXT",
+    "country_rank": "TEXT",
+    "channel_type_rank": "TEXT",
+    "subscribers_for_last_30_days": "TEXT",
+    "subscribers_for_last_30_days_progress": "TEXT",
+    "video_views_for_the_last_30_days": "TEXT",
+    "video_views_for_the_last_30_days_progress": "TEXT",
+    "estimated_monthly_earnings": "TEXT",
+    "estimated_yearly_earnings": "TEXT"
+  }
+}
