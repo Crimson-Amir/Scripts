@@ -39,6 +39,7 @@ sysctl net.ipv4.ip_forward=1
 iptables -t nat -A PREROUTING -p tcp --dport 22 -j DNAT --to-destination {IP_IRAN}
 iptables -t nat -A PREROUTING -j DNAT --to-destination {IP_KHAREJ}
 iptables -t nat -A POSTROUTING -j MASQUERADE
+exit 0
 """
 
 # Replace IP_IRAN and IP_KHAREJ in the rc_local_contents
