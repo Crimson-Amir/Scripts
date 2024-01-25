@@ -1,3 +1,5 @@
+import json
+
 import requests
 from private import PORT, auth, telegram_bot_token, ADMIN_CHAT_ID, DOMAIN
 
@@ -26,7 +28,11 @@ class XuiApiClean:
             print('connect Successful!')
             return True
         else:
-            text = f'connection problem! code: {request.status_code} | url: {request.url}'
+            try:
+                json_if_available = request.json()
+            except Exception as e:
+                json_if_available = e
+            text = f'connection problem!\ncode: {request.status_code}\nurl: {request.url}\njson: {json_if_available}'
             print(text)
             self.send_telegram_message(text)
             return False
@@ -35,9 +41,9 @@ class XuiApiClean:
         try:
             test_ = request.json()
             print('connect Successful!')
-            return test_
+            return True
         except Exception as e:
-            text = f'connection problem! code: {request.status_code} | url: {request.url}'
+            text = f'connection problem\ncode: {request.status_code}\nurl: {request.url}'
             print(text, e)
             self.send_telegram_message(text)
             return False
@@ -50,12 +56,12 @@ class XuiApiClean:
     def get_inbound(self, inbound_id):
         get_inbound = self.connect.get(f'https://{DOMAIN}:{PORT}/panel/api/inbounds/get/{inbound_id}')
         if self.check_request(get_inbound):
-            return get_inbound
+            return get_inbound.json()
 
     def get_client(self, client_email):
         get_client_ = self.connect.get(f'https://{DOMAIN}:{PORT}/panel/api/inbounds/getClientTraffics/{client_email}')
         if self.check_request(get_client_):
-            return get_client_
+            return get_client_.json()
 
     def add_inbound(self, data):
         add_inb = self.connect.post(f'https://{DOMAIN}:{PORT}/panel/api/inbounds/add', json=data)
@@ -96,3 +102,17 @@ class XuiApiClean:
         inb = self.connect.post(f'https://{DOMAIN}:{PORT}/panel/api/inbounds/createbackup')
         if self.check_json(inb):
             return inb.json()
+
+    def get_client_url(self, client_email, inbound_id, domain="root.ggkala.shop", host="ponisha.ir", default_config_schematic=None):
+        if not default_config_schematic:
+            default_config_schematic = "vless://{}@{}:{}?security=none&host={}&headerType=http&type={}#{}-{}"
+        get_in = self.get_inbound(inbound_id)
+        port = get_in['obj']['port']
+        remark = get_in['obj']['remark']
+        client_list = json.loads(get_in['obj']['settings'])['clients']
+        network = json.loads(get_in['obj']['streamSettings'])['network']
+        for client in client_list:
+            if client['email'] == client_email:
+                return default_config_schematic.format(client['id'], domain, port, host, network,remark, client['email'])
+
+        return "client is not available"

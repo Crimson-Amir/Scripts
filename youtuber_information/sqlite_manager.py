@@ -27,7 +27,7 @@ class ManageDb:
     @connecting_manage
     def select(self, column: str = "*", table: str = "sqlite_master",
                where: str = None, distinct: bool = False, order_by: str = None,
-               limit: str = None):
+               limit: str = None, ret_raw_res=False):
         """
         :param column: select <column> from db
         :param table: table name
@@ -60,8 +60,9 @@ class ManageDb:
         for row in rows:
             values = [f"'{val}'" for val in row.values()]
             touples.append(f"({', '.join(values)})")
-        self.cursor.execute(f'INSERT INTO {table} ({column}) VALUES {", ".join(touples)}')
+        ex = self.cursor.execute(f'INSERT INTO {table} ({column}) VALUES {", ".join(touples)}')
         self.db.commit()
+        return self.cursor.lastrowid
 
     @connecting_manage
     def delete(self, table: dict):
@@ -80,10 +81,13 @@ class ManageDb:
 
     @connecting_manage
     def update(self, table, where):
+        where = f'where {where}' or None
         for key, value in table.items():
             for k, v in value.items():
-                self.cursor.execute(f"UPDATE {key} SET {k} = '{v}' {where}")
+                text = f"UPDATE {key} SET {k} = '{v}' {where}"
+                self.cursor.execute(text)
             self.db.commit()
+        return self.cursor.lastrowid
 
     @connecting_manage
     def custom(self, order: str):
