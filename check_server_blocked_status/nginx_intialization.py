@@ -45,6 +45,9 @@ try:
 except Exception as e:
     print(f"* Error In Writhing Files: {e}")
     exit(1)
+    
+print(os.system('rm /etc/nginx/sites-available/default'))
+print(os.system('rm /etc/nginx/sites-enabled/default'))
 
 print(os.system('ln -s /etc/nginx/sites-available/simple_json /etc/nginx/sites-enabled/'))
 print(os.system('systemctl restart nginx'))
