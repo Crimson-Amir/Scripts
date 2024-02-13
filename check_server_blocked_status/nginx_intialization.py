@@ -54,6 +54,6 @@ print(os.system('rm /etc/nginx/sites-enabled/default'))
 print(os.system('ln -s /etc/nginx/sites-available/simple_json /etc/nginx/sites-enabled/'))
 print(os.system('systemctl restart nginx'))
 
-print(os.system('bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh)'))
+print(os.system(r'bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh)'))
 
 print('[Done]')
