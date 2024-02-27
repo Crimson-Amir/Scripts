@@ -1,10 +1,12 @@
 import os
 
-print(os.system('apt install nginx certbot -y'))
+print(os.system('apt install certbot -y'))
 
 server_addres = input('Enter Your Domain: ')
 
 print(os.system(f'certbot certonly --standalone --agree-tos --register-unsafely-without-email -d {server_addres}'))
+
+print(os.system('apt install nginx -y'))
 
 ok_json = '{"success": true}'
 
