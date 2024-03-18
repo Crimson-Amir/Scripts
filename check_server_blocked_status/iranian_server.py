@@ -1,37 +1,34 @@
-import schedule
-import requests
+import asyncio
+import aiohttp
 import time
+import json
 
-url_for_checks = ['https://admin.ggkala.shop', 'https://netherlands.ggkala.shop']
-
-api_addres_for_report = 'https://check.ggkala.shop/report_connection_problem'
+urls_to_check = ['https://admin.ggkala.shop', 'https://netherlands.ggkala.shop']
+api_address_for_report = 'https://check.ggkala.shop/report_connection_problem'
 report_problem_text = "🔴 The Server Is Probably Blocked"
-check_every__min = 5
+check_every_min = 1
 
-def report(text):
-    return requests.post(api_addres_for_report, data={'message': text})
-
-
-def check():
-    for url in url_for_checks:
-        try:
-            status = requests.get(url, timeout=5)
-
-            if status.status_code == 200:
-
-                get_json = status.json()
-                if get_json['success']:
+async def fetch(url, session):
+    try:
+        async with session.get(url, timeout=2) as response:
+            if response.status == 200:
+                data = await response.json()
+                if data.get('success'):
                     print('OK')
-                    continue
+                    return
+            await report(f'{report_problem_text}\nstatus code: {response.status}\nreason: {response.reason}\nSERVER: {url}')
+    except Exception as e:
+        await report(f'{report_problem_text}\nSERVER: {url}\nerror type: {type(e).__name__}\nerror: {e}')
 
-                return report(f'{report_problem_text}\nstatus code: {status.status_code}\nreason: {status.reason}')
+async def report(text):
+    async with aiohttp.ClientSession() as session:
+        await session.post(api_address_for_report, data={'message': text})
 
-        except Exception as e:
-            report(f'{report_problem_text}\nSERVER: {url}\n'
-                      f'error type: {type(e).__name__}\nerror: {e}')
+async def check_periodically():
+    while True:
+        async with aiohttp.ClientSession() as session:
+            await asyncio.gather(*[fetch(url, session) for url in urls_to_check])
+            await asyncio.sleep(check_every_min * 60)
 
-schedule.every(check_every__min).minutes.do(check)
-
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+if __name__ == "__main__":
+    asyncio.run(check_periodically())
