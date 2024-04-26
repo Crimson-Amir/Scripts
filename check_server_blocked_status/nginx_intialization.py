@@ -1,8 +1,13 @@
 import os
+import subprocess
+
+print(os.system('apt install certbot -y'))
+
+server_addres = input('Enter Your Domain: ')
+
+print(os.system(f'certbot certonly --standalone --agree-tos --register-unsafely-without-email -d {server_addres}'))
 
 print(os.system('apt install nginx -y'))
-
-server_addres = input('Enter Your Domain [Make Sure Alredy Have Sertificate]: ')
 
 ok_json = '{"success": true}'
 
@@ -45,8 +50,11 @@ try:
 except Exception as e:
     print(f"* Error In Writhing Files: {e}")
     exit(1)
+    
+print(os.system('rm /etc/nginx/sites-available/default'))
+print(os.system('rm /etc/nginx/sites-enabled/default'))
 
 print(os.system('ln -s /etc/nginx/sites-available/simple_json /etc/nginx/sites-enabled/'))
 print(os.system('systemctl restart nginx'))
 
-print('[Done]')
+subprocess.run("bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh)")
