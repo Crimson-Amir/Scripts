@@ -8,7 +8,7 @@ class Singleton(type):
         return self._isinstance
 
 
-class MediaDownloader(ABC):
+class MediaDownloader(ABC):  # creator
     def __init__(self, link):
         self.link = link
 
@@ -17,7 +17,7 @@ class MediaDownloader(ABC):
         pass
 
 
-class Instagram(MediaDownloader, metaclass=Singleton):
+class Instagram(MediaDownloader, metaclass=Singleton):  # product
     def download_profile(self):
         return f'I download {self.link} profile successful'
 
@@ -37,7 +37,7 @@ class Snapchat(MediaDownloader, metaclass=Singleton):
         return f'I download {self.link} profile successful'
 
 
-def client(platform, link):
+def client(platform, link):  # client
 
     platform_class = {
         'instagram': Instagram,
