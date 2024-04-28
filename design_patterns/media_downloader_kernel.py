@@ -8,7 +8,7 @@ class Singleton(type):
         return self._isinstance
 
 
-class MediaDownloader(ABC):  # creator
+class MediaDownloader(ABC):  # Abstract Factory
     def __init__(self, link):
         self.link = link
 
