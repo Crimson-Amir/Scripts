@@ -17,9 +17,9 @@
       </list>
     </option>
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2g2RdMNBweh6lolFtQvDofSjQmg" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -28,6 +28,11 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Python.command.executor": "Run",
+    "Python.mediator.executor": "Run",
+    "Python.observer.executor": "Run",
+    "Python.state.executor": "Run",
+    "Python.strategy.executor": "Run",
+    "Python.template_method.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "last_opened_file_path": "E:/projects/script/design_patterns"

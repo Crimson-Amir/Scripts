@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 
 class AbstractCommand(ABC):
+    @abstractmethod
     def execute(self):
         pass
 
@@ -49,8 +50,8 @@ class Invoker:
 
 
 job_one = SimpleCommand(5)
-reciver = Reciver()
-job_two = ComplexCommand(reciver, 1, 2)
+reciver_instance = Reciver()
+job_two = ComplexCommand(reciver_instance, 1, 2)
 
 invoker = Invoker(first_job=job_one, second_job=job_two)
 invoker.operation()
