@@ -1,7 +1,9 @@
 import abc
-
+import json
 
 user, password = 'amir', 1383
+json_file = '{"first_one": "OK"}'
+
 
 class Page(abc.ABC):
     @abc.abstractmethod
@@ -12,6 +14,10 @@ class Page(abc.ABC):
 class AnnoPage(Page):
     def show(self):
         return 'ok'
+
+    @staticmethod
+    def return_dict(dict_):
+        return dict_['first_one']
 
 
 class AuthPage(Page):
@@ -35,6 +41,17 @@ class Decorator(AbstractDecorator):
             print('wrong')
 
 
+class Adapter:
+    @staticmethod
+    def json_to_dict(json_data):
+        return json.loads(json_data)
+
+
 a = AuthPage()
 b = Decorator(a)
-print(b.show())
+
+c = AnnoPage()
+adapter = Adapter()
+c = c.return_dict(adapter.json_to_dict(json_file))
+
+print(c)
