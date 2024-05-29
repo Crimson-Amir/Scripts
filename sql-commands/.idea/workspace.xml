@@ -29,6 +29,7 @@
   "keyToString": {
     "Python.combining_queries.executor": "Run",
     "Python.connect.executor": "Run",
+    "Python.constraints.executor": "Run",
     "Python.execute.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
