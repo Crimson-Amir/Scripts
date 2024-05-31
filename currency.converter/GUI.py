@@ -122,7 +122,7 @@ class GUI(Scrap):
         self.text_box.insert(tk.END, "\n".join(self.price_list))
 
         self.drop['menu'].delete(0, 'end')
-        for option in self.price_list:git push
+        for option in self.price_list:
             self.drop['menu'].add_command(label=option, command=tk._setit(self.clicked, option))
 
     def search(self):

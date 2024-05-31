@@ -7,7 +7,7 @@ class Scrap:
         self.link = link
 
     def get_currency(self):
-        self.site = requests.get(self.link)
+        self.site = requests.get(self.link, verify=False)
         self.soup = BeautifulSoup(self.site.content, 'html.parser')
         self.result = self.soup.find_all('tr')
         self.name = [{"name": curreency_name.th.text, "price": curreency_name.td.text} for curreency_name in self.result if curreency_name.get("class") == ["pointer"]]
