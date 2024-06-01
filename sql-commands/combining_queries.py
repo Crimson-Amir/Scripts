@@ -11,9 +11,9 @@ for key in list_of_key:
     print(key + ':')
 
     cursor.execute(f"""
-        select * from user_detail
+        SELECT * FROM user_detail
         {key}
-        select userid,name from Product
+        SELECT userid,name FROM Product
     """)
 
     fetch = cursor.fetchall()
